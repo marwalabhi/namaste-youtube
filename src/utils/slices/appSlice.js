@@ -13,4 +13,5 @@ const appSlice = createSlice({
   },
 });
 
+export const { toggleMenu } = appSlice.actions;
 export default appSlice.reducer;

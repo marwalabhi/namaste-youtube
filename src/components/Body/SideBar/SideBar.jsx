@@ -1,7 +1,10 @@
 import React from "react";
+import { useSelector } from "react-redux";
 
 const SideBar = () => {
-  return (
+  const isMenuOpen = useSelector((store) => store.app.isMenuOpen);
+
+  return isMenuOpen ? (
     <aside className="font-roboto flex h-screen w-64 flex-col overflow-y-auto bg-black px-2 py-4 text-white">
       <ul className="space-y-1">
         <li>
@@ -90,7 +93,7 @@ const SideBar = () => {
         </li>
       </ul>
     </aside>
-  );
+  ) : null;
 };
 
 export default SideBar;
