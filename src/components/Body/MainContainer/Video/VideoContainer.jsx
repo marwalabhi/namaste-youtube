@@ -1,7 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { YT_VIDEOS_API } from "../../../../utils/constants";
+import VideoCard from "./VideoCard/VideoCard";
 
 const VideoContainer = () => {
-  return <div>VideoContainer</div>;
+  const [videos, setVideos] = useState([]);
+
+  useEffect(() => {
+    getVideos();
+  }, []);
+
+  const getVideos = async () => {
+    const data = await fetch(YT_VIDEOS_API);
+    const json = await data.json();
+    console.log(json.items);
+    setVideos(json.items);
+  };
+
+  return (
+    <div>
+      <VideoCard info={videos[0]} />
+    </div>
+  );
 };
 
 export default VideoContainer;
