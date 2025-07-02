@@ -17,8 +17,10 @@ const VideoContainer = () => {
   };
 
   return (
-    <div>
-      <VideoCard info={videos[0]} />
+    <div className="grid grid-cols-4 gap-2">
+      {videos.map((video) => (
+        <VideoCard key={video?.id} info={video} />
+      ))}
     </div>
   );
 };
