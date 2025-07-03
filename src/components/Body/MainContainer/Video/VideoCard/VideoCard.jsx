@@ -33,13 +33,15 @@ const VideoCard = ({ info }) => {
     fetchChannelAvatar();
   }, [channelId]);
 
+  //border border-[#aaaaaa]/20
+
   return (
-    <div className="font-roboto w-96 cursor-pointer rounded-xl border border-[#aaaaaa]/20 bg-white transition-shadow hover:shadow-2xl">
+    <div className="font-roboto cursor-pointer rounded-xl bg-white transition-shadow hover:shadow-2xl">
       <div className="relative aspect-video w-full overflow-hidden rounded-xl">
         <img
           className="h-full w-full object-cover"
           alt="thumbnail"
-          src={thumbnails?.medium?.url || thumbnails?.default?.url}
+          src={thumbnails?.standard?.url || thumbnails?.default?.url}
         />
         <span className="absolute right-2 bottom-2 rounded bg-black px-2 py-0.5 text-xs font-semibold text-white opacity-80">
           {formatDuration(contentDetails?.duration)}
@@ -52,11 +54,11 @@ const VideoCard = ({ info }) => {
           className="mr-3 flex h-9 w-9 shrink-0 rounded-full bg-gray-200 object-cover"
         />
         <div className="flex flex-col">
-          <h3 className="mb-1 line-clamp-2 text-base font-semibold text-gray-900">
-            {title}
-          </h3>
-          <div className="text-sm text-gray-700">{channelTitle}</div>
-          <div className="text-xs text-gray-500">
+          <h3 className="mb-1 line-clamp-2 font-medium">{title}</h3>
+          <div className="cursor-pointer text-[14px] leading-[1.4rem] font-normal text-gray-500 hover:text-gray-800">
+            {channelTitle}
+          </div>
+          <div className="text-[14px] leading-[1.4rem] font-normal text-gray-500">
             {formatViews(statistics?.viewCount)}
             {statistics?.viewCount ? " • " : ""}
             {formatTimeAgo(publishedAt)}
