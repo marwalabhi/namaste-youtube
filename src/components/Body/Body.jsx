@@ -1,6 +1,6 @@
 import React from "react";
 import SideBar from "./SideBar/SideBar";
-import { Outlet } from "react-router-dom";
+import { Outlet } from "react-router";
 
 const Body = () => {
   return (
