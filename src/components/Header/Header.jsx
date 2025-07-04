@@ -2,18 +2,22 @@ import {
   SolarUserCircleOutline,
   SolarHamburgerMenuOutline,
   SolarMagniferLinear,
+  BitcoinIconsCrossOutline,
 } from "../../assets/icons/SolarIcons";
 import logo from "../../assets/logo.png";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toggleMenu } from "../../utils/slices/appSlice";
 import { useState, useEffect } from "react";
 import { YOUTUBE_SEARCH_API } from "../../utils/constants";
-import { BitcoinIconsCrossOutline } from "../../assets/icons/SolarIcons";
+import { cacheResults } from "../../utils/slices/searchSlice";
 
 const Header = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+
+  const searchCache = useSelector((store) => store.search);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     //API call
@@ -24,7 +28,11 @@ const Header = () => {
     // decline the API call
 
     const timer = setTimeout(() => {
-      getSearchSuggestions();
+      if (searchCache[searchQuery]) {
+        setSuggestions(searchCache[searchQuery]);
+      } else {
+        getSearchSuggestions();
+      }
     }, 200);
 
     return () => {
@@ -56,8 +64,14 @@ const Header = () => {
     console.log(data);
 
     setSuggestions(data[1] || []);
+
+    //update cache
+    dispatch(
+      cacheResults({
+        [searchQuery]: data[1],
+      }),
+    );
   };
-  const dispatch = useDispatch();
 
   const toggelMenuHandler = () => {
     dispatch(toggleMenu());
