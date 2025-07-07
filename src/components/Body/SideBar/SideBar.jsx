@@ -9,7 +9,7 @@ const SideBar = () => {
   if (!isMenuOpen) return null;
 
   return (
-    <aside className="font-roboto flex h-screen w-64 flex-col overflow-y-auto bg-white px-2 py-4 text-black">
+    <aside className="font-roboto flex h-screen w-64 flex-col overflow-y-auto bg-white px-2 py-4 text-[15px] text-black">
       <ul className="space-y-1">
         <li>
           <Link to="/">

@@ -4,3 +4,9 @@ export const YT_VIDEOS_API =
 
 export const YOUTUBE_SEARCH_API =
   "http://suggestqueries.google.com/complete/search?client=firefox&ds=yt&q=";
+
+export const YT_CHANNEL_DETAIL =
+  "https://youtube.googleapis.com/youtube/v3/channels?part=snippet&id=";
+
+export const VIDEO_CONTENT_DETAIL =
+  "https://youtube.googleapis.com/youtube/v3/videos?part=snippet,statistics,contentDetails&id=";

@@ -1,3 +1,4 @@
+// format views and likes
 export const formatViews = (views) => {
   if (!views) return "";
   const num = Number(views);
@@ -13,6 +14,24 @@ export const formatViews = (views) => {
   if (num < 1_000_000_000)
     return `${(num / 1_000_000).toFixed(1).replace(/\.0$/, "")}M `;
   return `${(num / 1_000_000_000).toFixed(1).replace(/\.0$/, "")}B `;
+};
+
+export const formatCount = (count, views = false) => {
+  if (!count) return "";
+  const num = Number(count);
+
+  if (num < 1000) return `${num}`;
+  if (num < 1_000_000)
+    return views
+      ? `${(num / 1000).toFixed(1).replace(/\.0$/, "")}K views`
+      : `${Math.round(num / 1000)}K `;
+  if (num < 1_000_000_000)
+    return views
+      ? `${(num / 1_000_000).toFixed(1).replace(/\.0$/, "")}M views`
+      : `${Math.round(num / 1_000_000)}M `;
+  return views
+    ? `${(num / 1_000_000_000).toFixed(1).replace(/\.0$/, "")}B views`
+    : `${Math.round(num / 1_000_000_000)}B `;
 };
 
 export const formatTimeAgo = (dateString) => {

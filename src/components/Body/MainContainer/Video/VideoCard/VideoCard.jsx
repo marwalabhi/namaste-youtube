@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import {
+  formatCount,
   formatDuration,
   formatTimeAgo,
-  formatViews,
 } from "../../../../../utils/commonHelpers";
+import { YT_CHANNEL_DETAIL } from "../../../../../utils/constants";
 
 const DEFAULT_AVATAR =
   "https://www.gstatic.com/youtube/img/channel/default_profile_48.png";
@@ -20,9 +21,14 @@ const VideoCard = ({ info }) => {
     const fetchChannelAvatar = async () => {
       try {
         const res = await fetch(
-          `https://youtube.googleapis.com/youtube/v3/channels?part=snippet&id=${channelId}&key=${import.meta.env.VITE_API_KEY}`,
+          YT_CHANNEL_DETAIL +
+            channelId +
+            "&key=" +
+            import.meta.env.VITE_API_KEY,
         );
         const data = await res.json();
+        console.log(data, "channel");
+
         const avatar =
           data?.items?.[0]?.snippet?.thumbnails?.default?.url || DEFAULT_AVATAR;
         setChannelAvatar(avatar);
@@ -59,7 +65,7 @@ const VideoCard = ({ info }) => {
             {channelTitle}
           </div>
           <div className="text-[14px] leading-[1.4rem] font-normal text-gray-500">
-            {formatViews(statistics?.viewCount) + "views"}
+            {formatCount(statistics?.viewCount, true)}
             {statistics?.viewCount ? " • " : ""}
             {formatTimeAgo(publishedAt)}
           </div>

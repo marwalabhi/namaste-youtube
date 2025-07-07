@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSearchParams } from "react-router";
-// import { YT_VIDEOS_API } from "../../utils/constants";
-import { formatTimeAgo, formatViews } from "../../utils/commonHelpers";
-
+import { formatTimeAgo, formatCount } from "../../utils/commonHelpers";
+import {
+  MdiLightDownload,
+  MdiLightShare,
+  SolarLikeLinear,
+} from "../../assets/icons/SolarIcons";
 import { closeMenu } from "../../utils/slices/appSlice";
-import Comments from "./CommentsContainer/CommentsContainer";
 import CommentsContainer from "./CommentsContainer/CommentsContainer";
+import { VIDEO_CONTENT_DETAIL, YT_CHANNEL_DETAIL } from "../../utils/constants";
 
 const WatchPage = () => {
   const [searchParams] = useSearchParams();
@@ -14,6 +17,7 @@ const WatchPage = () => {
   const dispatch = useDispatch();
 
   const [video, setVideo] = useState(null);
+  const [channelAvatar, setChannelAvatar] = useState("");
 
   useEffect(() => {
     dispatch(closeMenu());
@@ -22,10 +26,29 @@ const WatchPage = () => {
 
   const fetchVideoDetails = async () => {
     const apiKey = import.meta.env.VITE_API_KEY;
-    const url = `https://youtube.googleapis.com/youtube/v3/videos?part=snippet,statistics,contentDetails&id=${videoId}&key=${import.meta.env.VITE_API_KEY}`;
+    const url = VIDEO_CONTENT_DETAIL + videoId + "&key=" + apiKey;
     const res = await fetch(url);
     const data = await res.json();
+    console.log("fetchVideo", data);
+
     setVideo(data.items?.[0]);
+  };
+
+  const channelId = video?.snippet?.channelId;
+
+  useEffect(() => {
+    if (!channelId) return; // only fetch if channelId is available
+    fetchChannelDetails();
+  }, [channelId]);
+
+  const fetchChannelDetails = async () => {
+    const apiKey = import.meta.env.VITE_API_KEY;
+    const res = await fetch(YT_CHANNEL_DETAIL + channelId + "&key=" + apiKey);
+    const data = await res.json();
+    console.log("fetchChannelDetails", data);
+
+    const avatar = data?.items?.[0]?.snippet?.thumbnails?.default?.url;
+    setChannelAvatar(avatar);
   };
 
   if (!video) return <div className="p-8">Loading...</div>;
@@ -54,11 +77,11 @@ const WatchPage = () => {
           <div className="mt-2 flex items-center justify-between">
             <div className="flex items-center gap-3">
               {/* Channel Avatar */}
-              {/* <img
-              // src={}
-              alt={snippet.channelTitle}
-              className="h-10 w-10 rounded-full"
-            /> */}
+              <img
+                src={channelAvatar}
+                alt={snippet.channelTitle}
+                className="h-10 w-10 rounded-full"
+              />
               <div>
                 <div className="font-semibold">{snippet.channelTitle}</div>
                 <div className="text-xs text-gray-500">
@@ -69,18 +92,17 @@ const WatchPage = () => {
                 Subscribe
               </button>
             </div>
-            <div className="flex items-center gap-4">
-              <span>{formatViews(statistics.viewCount)}</span>
-              <span>•</span>
-              <span>{formatTimeAgo(snippet.publishedAt)}</span>
+            <div className="flex items-center gap-4 text-[14px] font-medium">
               {/* Add Like, Share, etc. buttons here */}
-              <button className="rounded-full bg-gray-100 px-3 py-1 font-medium">
-                {formatViews(statistics.likeCount)}
+              <button className="flex cursor-pointer items-center gap-2 rounded-full bg-gray-100 px-3.5 py-2">
+                <SolarLikeLinear fontSize={21} />
+                {formatCount(statistics?.likeCount)}
               </button>
-              <button className="rounded-full bg-gray-100 px-3 py-1 font-medium">
-                Share
+              <button className="flex cursor-pointer items-center gap-2 rounded-full bg-gray-100 px-3.5 py-2">
+                <MdiLightShare fontSize={25} /> Share
               </button>
-              <button className="rounded-full bg-gray-100 px-3 py-1 font-medium">
+              <button className="flex cursor-pointer items-center gap-2 rounded-full bg-gray-100 px-3.5 py-2">
+                <MdiLightDownload fontSize={21} />
                 Download
               </button>
             </div>
@@ -89,7 +111,7 @@ const WatchPage = () => {
           {/* Description */}
           <div className="mt-4 rounded-lg bg-gray-100 p-4 text-gray-800">
             <div className="mb-1 font-medium">
-              {formatViews(statistics.viewCount)} •{" "}
+              {Number(statistics?.viewCount).toLocaleString() + " views"} •{" "}
               {formatTimeAgo(snippet.publishedAt)}
             </div>
             <div className="whitespace-pre-line">{snippet.description}</div>
@@ -97,7 +119,7 @@ const WatchPage = () => {
         </div>
       </div>
       <div>
-        <CommentsContainer />
+        <CommentsContainer commentCount={statistics.commentCount} />
       </div>
     </div>
   );
