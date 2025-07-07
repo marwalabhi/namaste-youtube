@@ -2,11 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSearchParams } from "react-router";
 // import { YT_VIDEOS_API } from "../../utils/constants";
-import {
-  formatTimeAgo,
-  formatViews,
-  formatDuration,
-} from "../../utils/commonHelpers";
+import { formatTimeAgo, formatViews } from "../../utils/commonHelpers";
 
 import { closeMenu } from "../../utils/slices/appSlice";
 import Comments from "./CommentsContainer/CommentsContainer";
@@ -45,7 +41,9 @@ const WatchPage = () => {
           <div className="aspect-video w-full overflow-hidden rounded-xl bg-black">
             <iframe
               className="h-full w-full"
-              src={`https://www.youtube.com/embed/${videoId}`}
+              src={`https://www.youtube.com/embed/${videoId}?autoplay=1`}
+              frameBorder="0"
+              allow="accelerometer; autoplay"
               title={snippet.title}
               allowFullScreen
             />

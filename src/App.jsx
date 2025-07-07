@@ -1,5 +1,4 @@
 import "./App.css";
-import Header from "./components/Header/Header.jsx";
 import Body from "./components/Body/Body.jsx";
 import { Provider } from "react-redux";
 import store from "./utils/store";
@@ -7,6 +6,7 @@ import { RouterProvider } from "react-router/dom";
 import { createBrowserRouter } from "react-router";
 import WatchPage from "./components/WatchPage/WatchPage";
 import MainContainer from "./components/Body/MainContainer/MainContainer";
+import ErrorBoundary from "./components/Error/ErrorBoundary";
 
 const appRouter = createBrowserRouter([
   {
@@ -21,10 +21,11 @@ const appRouter = createBrowserRouter([
 
 function App() {
   return (
-    <Provider store={store}>
-      <Header />
-      <RouterProvider router={appRouter} />
-    </Provider>
+    <ErrorBoundary fallback={<p>Oops! Something went wrong</p>}>
+      <Provider store={store}>
+        <RouterProvider router={appRouter} />
+      </Provider>
+    </ErrorBoundary>
   );
 }
 

@@ -59,7 +59,7 @@ const VideoCard = ({ info }) => {
             {channelTitle}
           </div>
           <div className="text-[14px] leading-[1.4rem] font-normal text-gray-500">
-            {formatViews(statistics?.viewCount)}
+            {formatViews(statistics?.viewCount) + "views"}
             {statistics?.viewCount ? " • " : ""}
             {formatTimeAgo(publishedAt)}
           </div>

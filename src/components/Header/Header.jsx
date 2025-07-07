@@ -10,6 +10,7 @@ import { toggleMenu } from "../../utils/slices/appSlice";
 import { useState, useEffect } from "react";
 import { YOUTUBE_SEARCH_API } from "../../utils/constants";
 import { cacheResults } from "../../utils/slices/searchSlice";
+import { Link } from "react-router";
 
 const Header = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -79,14 +80,16 @@ const Header = () => {
   console.log("api call with - ", suggestions);
   return (
     <header className="font-roboto flex items-center justify-between bg-white px-4 py-2 shadow-lg">
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3 transition-opacity">
         <button
           className="cursor-pointer rounded-full p-2 hover:bg-gray-100 focus:outline-none"
           onClick={() => toggelMenuHandler()}
         >
           <SolarHamburgerMenuOutline fontSize={28} />
         </button>
-        <img alt="logo" src={logo} className="h-16 w-auto object-contain" />
+        <Link to={"/"}>
+          <img alt="logo" src={logo} className="h-16 w-auto object-contain" />
+        </Link>
       </div>
 
       <div className="relative max-w-xl flex-1">
