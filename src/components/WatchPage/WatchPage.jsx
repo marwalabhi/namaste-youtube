@@ -17,7 +17,7 @@ const WatchPage = () => {
   const dispatch = useDispatch();
 
   const [video, setVideo] = useState(null);
-  const [channelAvatar, setChannelAvatar] = useState("");
+  const [channelAvatar, setChannelAvatar] = useState(null);
 
   useEffect(() => {
     dispatch(closeMenu());
@@ -29,7 +29,7 @@ const WatchPage = () => {
     const url = VIDEO_CONTENT_DETAIL + videoId + "&key=" + apiKey;
     const res = await fetch(url);
     const data = await res.json();
-    console.log("fetchVideo", data);
+    // console.log("fetchVideo", data);
 
     setVideo(data.items?.[0]);
   };
@@ -45,7 +45,7 @@ const WatchPage = () => {
     const apiKey = import.meta.env.VITE_API_KEY;
     const res = await fetch(YT_CHANNEL_DETAIL + channelId + "&key=" + apiKey);
     const data = await res.json();
-    console.log("fetchChannelDetails", data);
+    // console.log("fetchChannelDetails", data);
 
     const avatar = data?.items?.[0]?.snippet?.thumbnails?.default?.url;
     setChannelAvatar(avatar);
@@ -55,7 +55,7 @@ const WatchPage = () => {
 
   const { snippet, statistics } = video;
 
-  console.log(video);
+  // console.log(video);
   return (
     <div className="flex flex-col">
       <div className="font-roboto m-6 flex min-h-screen flex-col">

@@ -22,7 +22,7 @@ const Header = () => {
 
   useEffect(() => {
     //API call
-    console.log("You typed: ", searchQuery);
+    // console.log("You typed: ", searchQuery);
 
     // make an api call after every key press but if the diff b/w
     // 2 api calls is < 200ms
@@ -62,7 +62,7 @@ const Header = () => {
   const getSearchSuggestions = async () => {
     const res = await fetch(YOUTUBE_SEARCH_API + searchQuery);
     const data = await res.json();
-    console.log(data);
+    // console.log(data);
 
     setSuggestions(data[1] || []);
 
@@ -77,7 +77,7 @@ const Header = () => {
   const toggelMenuHandler = () => {
     dispatch(toggleMenu());
   };
-  console.log("api call with - ", suggestions);
+  // console.log("api call with - ", suggestions);
   return (
     <header className="font-roboto flex items-center justify-between bg-white px-4 py-2 shadow-lg">
       <div className="flex items-center gap-3">
