@@ -27,7 +27,7 @@ const VideoCard = ({ info }) => {
             import.meta.env.VITE_API_KEY,
         );
         const data = await res.json();
-        console.log(data, "channel");
+        // console.log(data, "channel");
 
         const avatar =
           data?.items?.[0]?.snippet?.thumbnails?.default?.url || DEFAULT_AVATAR;

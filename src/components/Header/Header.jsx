@@ -8,17 +8,23 @@ import logo from "../../assets/logo.png";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleMenu } from "../../utils/slices/appSlice";
 import { useState, useEffect } from "react";
-import { YOUTUBE_SEARCH_API } from "../../utils/constants";
+import { YT_SEARCH_SUGGEST_API } from "../../utils/constants";
 import { cacheResults } from "../../utils/slices/searchSlice";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 const Header = () => {
+  const navigate = useNavigate();
+
   const [searchQuery, setSearchQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
 
+  const [searchFor, setSearchFor] = useState("");
+
   const searchCache = useSelector((store) => store.search);
   const dispatch = useDispatch();
+
+  // console.log("Searching for", searchFor);
 
   useEffect(() => {
     //API call
@@ -59,19 +65,38 @@ const Header = () => {
    * - start timer - make api call after 200 ms
    */
 
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(
+        `/results?search_query=${encodeURIComponent(searchQuery.trim())}`,
+      );
+      setShowSuggestions(false);
+    }
+  };
+
+  const handleSuggestionClick = (suggestion) => {
+    console.log("suggestion2", suggestion);
+
+    navigate(`/results?search_query=${encodeURIComponent(suggestion)}`);
+    setShowSuggestions(false);
+    setSearchQuery(suggestion);
+  };
+
   const getSearchSuggestions = async () => {
-    const res = await fetch(YOUTUBE_SEARCH_API + searchQuery);
-    const data = await res.json();
-    // console.log(data);
-
-    setSuggestions(data[1] || []);
-
-    //update cache
-    dispatch(
-      cacheResults({
-        [searchQuery]: data[1],
-      }),
-    );
+    try {
+      const res = await fetch(YT_SEARCH_SUGGEST_API + searchQuery);
+      const data = await res.json();
+      setSuggestions(data[1] || []);
+      //update cache
+      dispatch(
+        cacheResults({
+          [searchQuery]: data[1],
+        }),
+      );
+    } catch (err) {
+      console.error("Failed to fetch suggestions", err);
+    }
   };
 
   const toggelMenuHandler = () => {
@@ -93,7 +118,7 @@ const Header = () => {
       </div>
 
       <div className="relative max-w-xl flex-1">
-        <form className="mx-6 flex w-full">
+        <form className="mx-6 flex w-full" onSubmit={handleSearch}>
           <input
             onChange={(e) => setSearchQuery(e.target.value)}
             value={searchQuery}
@@ -124,12 +149,14 @@ const Header = () => {
         {showSuggestions && suggestions.length > 0 && (
           <ul className="absolute right-0 left-0 z-10 mx-7 mt-1 overflow-y-auto rounded-xl border border-gray-200 bg-white p-2 shadow-lg">
             {suggestions.map((s, i) => (
-              <li
-                key={s + i}
-                className="flex cursor-pointer items-center gap-2 rounded-xl px-4 py-2 hover:bg-gray-100"
-              >
-                <SolarMagniferLinear className="text-gray-500" />
-                <span className="font-normal">{s}</span>
+              <li key={s + i}>
+                <button
+                  className="flex w-full items-center gap-2 rounded-xl px-4 py-2 hover:bg-gray-100"
+                  onMouseDown={() => handleSuggestionClick(s)}
+                >
+                  <SolarMagniferLinear className="text-gray-500" />
+                  <span className="font-normal">{s}</span>
+                </button>
               </li>
             ))}
           </ul>

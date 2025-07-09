@@ -9,15 +9,42 @@ import {
 } from "../../assets/icons/SolarIcons";
 import { closeMenu } from "../../utils/slices/appSlice";
 import CommentsContainer from "./CommentsContainer/CommentsContainer";
-import { VIDEO_CONTENT_DETAIL, YT_CHANNEL_DETAIL } from "../../utils/constants";
+import {
+  VIDEO_CONTENT_DETAIL,
+  YT_CHANNEL_DETAIL,
+  YT_SEARCH_API,
+} from "../../utils/constants";
+// import axios from "axios";
 
 const WatchPage = () => {
   const [searchParams] = useSearchParams();
+  // const query = searchParams.get("search_query");
+  // console.log("query", query);
+
   const videoId = searchParams.get("v");
   const dispatch = useDispatch();
 
   const [video, setVideo] = useState(null);
   const [channelAvatar, setChannelAvatar] = useState(null);
+
+  // useEffect(() => {
+  //   if (!query) return;
+
+  //   const fetchVideos = async () => {
+  //     const { data } = await axios.get(YT_SEARCH_API, {
+  //       params: {
+  //         part: "snippet",
+  //         maxResults: 10,
+  //         type: "video",
+  //         q: query,
+  //         key: import.meta.env.VITE_API_KEY,
+  //       },
+  //     });
+  //     setVideos(data.items);
+  //   };
+
+  //   fetchVideos();
+  // }, [query]);
 
   useEffect(() => {
     dispatch(closeMenu());
