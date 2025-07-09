@@ -7,6 +7,7 @@ import { createBrowserRouter } from "react-router";
 import WatchPage from "./components/WatchPage/WatchPage";
 import MainContainer from "./components/Body/MainContainer/MainContainer";
 import ErrorBoundary from "./components/Error/ErrorBoundary";
+import SearchResults from "./components/SearchResults/SearchResults";
 
 const appRouter = createBrowserRouter([
   {
@@ -15,6 +16,7 @@ const appRouter = createBrowserRouter([
     children: [
       { index: true, Component: MainContainer },
       { path: "/watch", Component: WatchPage },
+      { path: "/results", Component: SearchResults },
     ],
   },
 ]);
