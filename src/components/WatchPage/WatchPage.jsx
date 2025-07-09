@@ -10,6 +10,7 @@ import {
 import { closeMenu } from "../../utils/slices/appSlice";
 import CommentsContainer from "./CommentsContainer/CommentsContainer";
 import { VIDEO_CONTENT_DETAIL, YT_CHANNEL_DETAIL } from "../../utils/constants";
+import LiveChat from "../LiveChat/LiveChat";
 
 const WatchPage = () => {
   const [searchParams] = useSearchParams();
@@ -116,6 +117,10 @@ const WatchPage = () => {
             </div>
             <div className="whitespace-pre-line">{snippet.description}</div>
           </div>
+        </div>
+        {/* Live Chat */}
+        <div className="w-full">
+          <LiveChat />
         </div>
       </div>
       <div>
