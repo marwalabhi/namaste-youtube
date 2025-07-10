@@ -17,3 +17,5 @@ export const YT_VIDEO_COMMENTS =
 
 export const YT_SEARCH_API =
   "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&q=";
+
+export const LIVE_CHAT_COUNT = 225;

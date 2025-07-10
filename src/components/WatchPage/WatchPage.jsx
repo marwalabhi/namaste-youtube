@@ -59,7 +59,7 @@ const WatchPage = () => {
   // console.log(video);
   return (
     <div className="flex flex-col">
-      <div className="font-roboto m-6 flex min-h-screen flex-col">
+      <div className="font-roboto m-6 flex min-h-screen flex-row justify-around">
         <div className="mt-4 w-full max-w-6xl">
           {/* Video Player */}
           <div className="aspect-video w-full overflow-hidden rounded-xl bg-black">
@@ -119,7 +119,8 @@ const WatchPage = () => {
           </div>
         </div>
         {/* Live Chat */}
-        <div className="w-full">
+        <div className="">
+          <div className="ml-1 p-2 font-semibold">Live Chat: </div>
           <LiveChat />
         </div>
       </div>

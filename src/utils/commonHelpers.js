@@ -67,3 +67,43 @@ export const formatDuration = (duration) => {
     ? `${h}:${m.padStart(2, "0")}:${s.padStart(2, "0")}`
     : `${m}:${s.padStart(2, "0")}`;
 };
+
+const NAMES = [
+  "Aarav Sharma",
+  "Isha Patel",
+  "Rahul Verma",
+  "Priya Singh",
+  "Vikram Joshi",
+  "Sneha Reddy",
+  "Anjali Mehta",
+  "Rohan Desai",
+  "Kavya Nair",
+  "Aditya Rao",
+  "Neha Bansal",
+  "Amitabh Yadav",
+  "Pooja Kulkarni",
+  "Deepak Chauhan",
+  "Meera Jain",
+  "Kuldeep Saini",
+  "Lakshita Jetawat",
+  "Sejal",
+];
+
+const MESSAGES = [
+  "Kya baat hai! Bahut acha lag raha hai yeh session.",
+  "Full motivation mil rahi hai bhai! 🔥",
+  "Superb energy! Keep going! 💪",
+  "Bahut sahi jaa rahe ho! Proud of you!",
+  "Mazaa aa gaya! Aise hi content laate raho!",
+  "Abhishek bhai, aap to legend nikle! 🚀",
+  "Fitness ka asli maza aapke saath hi aata hai!",
+  "Jalwa hai bhai ka! 💯",
+  "Workout ke sath motivation bhi mil gaya!",
+  "Desi swag + fitness = unbeatable combo! 🇮🇳",
+];
+
+export const getRandomName = () =>
+  NAMES[Math.floor(Math.random() * NAMES.length)];
+
+export const getRandomMessage = () =>
+  MESSAGES[Math.floor(Math.random() * MESSAGES.length)];
