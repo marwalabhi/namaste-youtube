@@ -74,7 +74,9 @@ const WatchPage = () => {
           </div>
 
           {/* Video Info */}
-          <h1 className="mt-4 text-2xl font-bold">{snippet.title}</h1>
+          <h1 className="mt-4 text-2xl font-bold sm:text-xl">
+            {snippet.title}
+          </h1>
           <div className="mt-2 flex items-center justify-between">
             <div className="flex items-center gap-3">
               {/* Channel Avatar */}
@@ -110,7 +112,7 @@ const WatchPage = () => {
           </div>
 
           {/* Description */}
-          <div className="mt-4 rounded-lg bg-gray-100 p-4 text-gray-800">
+          <div className="mt-4 rounded-lg bg-gray-100 p-4 text-gray-800 sm:text-sm">
             <div className="mb-1 font-medium">
               {Number(statistics?.viewCount).toLocaleString() + " views"} •{" "}
               {formatTimeAgo(snippet.publishedAt)}
