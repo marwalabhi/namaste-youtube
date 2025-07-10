@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ChatMessage from "../ChatMessage/ChatMessage";
 import { useDispatch, useSelector } from "react-redux";
 import { addMessage } from "../../utils/slices/chatSlice";
@@ -8,6 +8,7 @@ const LiveChat = () => {
   const dispatch = useDispatch();
 
   const chatMessages = useSelector((store) => store.chat.messages);
+  const [liveMesaage, setLiveMessage] = useState("");
 
   useEffect(() => {
     const i = setInterval(() => {
@@ -25,8 +26,19 @@ const LiveChat = () => {
     return () => clearInterval(i);
   }, []);
 
+  const handleMessageSend = () => {
+    if (liveMesaage.trim() === "") return;
+    dispatch(
+      addMessage({
+        name: "Abhi Marwal",
+        message: liveMesaage,
+      }),
+    );
+    setLiveMessage("");
+  };
+
   return (
-    <div className="ml-2 w-lg">
+    <div className="ml-2 w-[35vw]">
       <div className="mb-1 flex h-[625px] flex-col-reverse overflow-x-hidden overflow-y-scroll rounded-lg border border-black bg-slate-100 p-2">
         {chatMessages &&
           chatMessages.length > 0 &&
@@ -34,16 +46,24 @@ const LiveChat = () => {
             <ChatMessage key={i} name={c?.name} message={c?.message} />
           ))}
       </div>
-      <div className="flex justify-between rounded-[8px] border border-blue-400">
+      <form
+        className="flex justify-between rounded-[8px] border border-blue-400"
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleMessageSend();
+        }}
+      >
         <input
           type="text"
           className="w-[75%] p-1 pl-3 outline-none"
           placeholder={"Type and share your opinion"}
+          onChange={(e) => setLiveMessage(e.target.value)}
+          value={liveMesaage}
         />
         <button className="w-[25%] cursor-pointer rounded-[8px] bg-black text-white hover:bg-gray-800">
           Send
         </button>
-      </div>
+      </form>
     </div>
   );
 };
