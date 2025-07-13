@@ -22,7 +22,7 @@ const ButtonList = () => {
   const [active, setActive] = useState("All");
 
   return (
-    <div className="font-roboto flex flex-wrap gap-3 bg-white px-4 py-3">
+    <div className="font-roboto flex flex-wrap gap-3 bg-white px-4 py-3 sm:gap-0 sm:py-1">
       {list.map((item) => (
         <Button
           key={item}
