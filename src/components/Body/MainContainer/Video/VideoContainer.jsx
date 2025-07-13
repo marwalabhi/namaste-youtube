@@ -42,8 +42,8 @@ const VideoContainer = () => {
 
   return (
     <div
-      className="h-[calc(100vh - 200px)] m-6 grid grid-cols-3 gap-6 overflow-y-scroll bg-pink-300"
-      onScroll={handleScroll}
+      className="m-6 grid h-11/12 grid-cols-3 gap-6 bg-rose-200"
+      // onScroll={handleScroll}
     >
       {loading && <h1>Loading...</h1>}
       {videos.map((video) => (

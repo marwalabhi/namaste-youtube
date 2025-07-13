@@ -104,7 +104,7 @@ const Header = () => {
   };
   // console.log("api call with - ", suggestions);
   return (
-    <header className="font-roboto sticky top-0 z-30 flex items-center justify-between bg-white px-4 py-2 shadow-lg">
+    <header className="font-roboto flex items-center justify-between bg-white px-4 py-2 shadow-lg">
       <div className="flex items-center gap-3">
         <button
           className="cursor-pointer rounded-full p-2 hover:bg-gray-100 focus:outline-none"
