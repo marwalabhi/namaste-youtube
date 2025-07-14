@@ -16,13 +16,14 @@ const list = [
   "Computer programming",
   "Study Skills",
   "Feature Phones",
+  "Yoga",
 ];
 
 const ButtonList = () => {
   const [active, setActive] = useState("All");
 
   return (
-    <div className="font-roboto flex flex-wrap gap-3 bg-white px-4 py-3 sm:gap-0 sm:py-1">
+    <div className="font-roboto flex flex-wrap gap-3 px-8 py-3 max-xl:my-1 max-xl:gap-0">
       {list.map((item) => (
         <Button
           key={item}

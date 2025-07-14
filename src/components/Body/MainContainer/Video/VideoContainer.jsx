@@ -42,7 +42,7 @@ const VideoContainer = () => {
 
   return (
     <div
-      className="m-6 grid h-11/12 grid-cols-3 gap-6 bg-rose-200"
+      className="grid h-11/12 grid-cols-3 gap-6 p-6"
       // onScroll={handleScroll}
     >
       {loading && <h1>Loading...</h1>}
