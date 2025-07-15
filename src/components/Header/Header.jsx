@@ -10,12 +10,13 @@ import { toggleMenu } from "../../utils/slices/appSlice";
 import { useState, useEffect } from "react";
 import { YT_SEARCH_SUGGEST_API } from "../../utils/constants";
 import { cacheResults } from "../../utils/slices/searchSlice";
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate, useLocation } from "react-router";
 import ButtonList from "../Body/MainContainer/ButtonList/ButtonList";
 
 const Header = () => {
   const navigate = useNavigate();
-
+  const location = useLocation();
+  const isWatchPage = location.pathname.includes("/watch");
   const isMenuOpen = useSelector((store) => store.app.isMenuOpen);
 
   const [searchQuery, setSearchQuery] = useState("");
@@ -176,8 +177,10 @@ const Header = () => {
             </button>
           </div>
         </div>
-        <div className={`z-10 ${isMenuOpen ? "ml-[13vw]" : ""}`}>
-          <ButtonList />
+        <div
+          className={`z-10 ${isMenuOpen ? "lg:ml-[13vw] xl:ml-[19vw]" : ""}`}
+        >
+          {!isWatchPage && <ButtonList />}
         </div>
       </div>
     </header>

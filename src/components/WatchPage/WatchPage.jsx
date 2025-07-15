@@ -59,7 +59,7 @@ const WatchPage = () => {
   return (
     <div className="flex flex-col">
       <div className="font-roboto m-6 flex min-h-screen flex-row justify-around">
-        <div className="mt-4 w-full max-w-6xl">
+        <div className="mt-4 w-full max-w-6xl xl:mt-15">
           {/* Video Player */}
           <div className="aspect-video w-full overflow-hidden rounded-xl bg-black">
             <iframe
@@ -118,7 +118,7 @@ const WatchPage = () => {
           </div>
         </div>
         {/* Live Chat */}
-        <div className="">
+        <div className="xl:mt-15">
           <div className="ml-1 p-2 font-semibold">Live Chat: </div>
           <LiveChat />
         </div>
