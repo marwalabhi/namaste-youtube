@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { YT_SEARCH_API } from "../../utils/constants";
 import { Link, useSearchParams } from "react-router";
 import VideoSearchCard from "../VideoSearchCard/VideoSearchCard";
+import { useSelector } from "react-redux";
+import axios from "axios";
 
 const SearchResults = () => {
   const [searchParams] = useSearchParams();
   const query = searchParams.get("search_query");
   console.log("query", query);
+
+  const isMenuOpen = useSelector((store) => store.app.isMenuOpen);
 
   const [videos, setVideos] = useState([]);
 
@@ -33,7 +36,7 @@ const SearchResults = () => {
   console.log("videos_data", videos);
 
   return (
-    <div className="m-6 flex flex-col gap-6">
+    <div className={`flex flex-col gap-6${isMenuOpen ? "" : ""}`}>
       {videos.map((video) => (
         <VideoSearchCard video={video} />
       ))}

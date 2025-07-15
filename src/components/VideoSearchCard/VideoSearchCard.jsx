@@ -1,10 +1,6 @@
 import React from "react";
 import { Link } from "react-router";
-import {
-  formatCount,
-  formatDuration,
-  formatTimeAgo,
-} from "../../utils/commonHelpers";
+import { useSelector } from "react-redux";
 
 const VideoSearchCard = ({ video }) => {
   console.log("datahere", video);
@@ -18,11 +14,11 @@ const VideoSearchCard = ({ video }) => {
         to={`/watch?v=${id.videoId || id.playlistId || id.channelId}`}
         className="flex w-full gap-4 rounded-xl bg-white p-2 transition hover:bg-gray-50"
       >
-        <div>
+        <div className="w-lg">
           <img
-            src={thumbnails?.medium?.url || thumbnails?.default?.url}
+            src={thumbnails?.high?.url || thumbnails?.default?.url}
             alt={snippet?.title}
-            className="h-36 w-60 flex-shrink-0 rounded-xl object-cover"
+            className="h-full w-full flex-shrink-0 rounded-xl object-cover"
           />
         </div>
 
