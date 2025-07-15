@@ -1,9 +1,9 @@
 export const YT_TRENDING_VIDEO_API =
-  "https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&maxResults=50&regionCode=IN&key=" +
+  "https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&maxResults=15&regionCode=IN&key=" +
   import.meta.env.VITE_API_KEY;
 
 export const YT_SEARCH_SUGGEST_API =
-  "http://suggestqueries.google.com/complete/search?client=firefox&ds=yt&q=";
+  "https://suggestqueries.google.com/complete/search?client=firefox&ds=yt&q=";
 // "https://youtube.googleapis.com/youtube/v3/search?&q=";
 
 export const YT_CHANNEL_DETAIL =

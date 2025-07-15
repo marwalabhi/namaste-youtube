@@ -1,5 +1,4 @@
 import "./App.css";
-import Body from "./components/Body/Body.jsx";
 import { Provider } from "react-redux";
 import store from "./utils/store";
 import { RouterProvider } from "react-router/dom";
@@ -7,6 +6,7 @@ import { createBrowserRouter } from "react-router";
 import WatchPage from "./components/WatchPage/WatchPage";
 import MainContainer from "./components/Body/MainContainer/MainContainer";
 import SearchResults from "./components/SearchResults/SearchResults";
+import Body from "./components/Body/Body";
 
 const appRouter = createBrowserRouter([
   {

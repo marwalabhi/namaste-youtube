@@ -105,7 +105,7 @@ const Header = () => {
   };
   // console.log("api call with - ", suggestions);
   return (
-    <header className="font-roboto fixed inset-x-0 top-0 z-30 bg-white/90 px-4 py-2 backdrop-blur-xl backdrop-saturate-150">
+    <header className="font-roboto fixed inset-x-0 top-0 z-30 bg-white/85 px-4 py-2 backdrop-blur-xl backdrop-saturate-150">
       <div className="flex flex-col">
         <div className="flex flex-row items-center justify-between">
           <div className="flex items-center gap-3">
