@@ -124,7 +124,10 @@ const WatchPage = () => {
         </div>
       </div>
       <div>
-        <CommentsContainer commentCount={statistics.commentCount} />
+        <CommentsContainer
+          commentCount={statistics.commentCount}
+          videoId={videoId}
+        />
       </div>
     </div>
   );

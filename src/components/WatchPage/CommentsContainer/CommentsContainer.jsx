@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Comment from "./Comment/Comment";
+import { YT_VIDEO_COMMENTS } from "../../../utils/constants";
 
-const commentsData = [
+const mockData = [
   {
     name: "Akshay Saini",
     text: "राधे राधे",
@@ -69,8 +70,10 @@ const commentsData = [
   },
 ];
 
-const CommentsList = ({ comments }) => {
-  return comments.map((comment, i) => <Comment key={i} data={comment} />);
+const CommentsList = ({ comments, realData }) => {
+  return comments.map((comment, i) => (
+    <Comment key={i} data={comment} r={realData} />
+  ));
 };
 
 // const CommentsList = ({ comments }) => (
@@ -88,11 +91,29 @@ const CommentsList = ({ comments }) => {
 //   </div>
 // );
 
-const CommentsContainer = ({ commentCount }) => {
+const CommentsContainer = (props) => {
+  const { commentCount, videoId } = props;
+  const [commentsData, setCommentsData] = useState(null);
+  const [token, setToken] = useState("");
+
+  useEffect(() => {
+    getComments();
+  }, []);
+
+  const getComments = async () => {
+    const apikey = import.meta.env.VITE_API_KEY;
+    const res = await fetch(YT_VIDEO_COMMENTS + videoId + "&key=" + apikey);
+    const json = await res.json();
+    setCommentsData(json.items);
+  };
+  console.log(commentsData);
+  // const { snippet } = commentsData;
+  // console.log(snippet);
+
   return (
     <div className="font-roboto m-5 p-2">
       <h1 className="text-2xl font-bold">Comments: {commentCount} </h1>
-      <CommentsList comments={commentsData} />
+      <CommentsList comments={mockData} realData={commentsData} />
     </div>
   );
 };
