@@ -1,59 +1,82 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
-import { YT_TRENDING_VIDEO_API } from "../../../../utils/constants";
+import {
+  API_PAGE_SIZE,
+  YT_TRENDING_VIDEO_API,
+} from "../../../../utils/constants";
 import VideoCard from "./VideoCard/VideoCard";
 import { Link } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { cacheVideos } from "../../../../utils/slices/scrollSlice";
+import { appendVideos } from "../../../../utils/slices/scrollSlice";
+import VideoSkeleton from "../../../ShimmerUI/VideoSkeleton";
 
 const VideoContainer = () => {
-  const [videos, setVideos] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loadingPage, setLoadingPage] = useState(false);
   const [nextToken, setNextToken] = useState(null);
+
+  const videos = useSelector((store) => store.iscroll.videos);
 
   const sentinelRef = useRef(null);
 
   const dispatch = useDispatch();
-  const limitedVideos = useSelector((store) => store.iscroll);
 
   useEffect(() => {
-    getVideos();
-  }, []);
+    if (videos.length === 0) getVideos(); // don't refresh on back-nav
+  }, [videos.length]);
 
-  const getVideos = async (token = "") => {
+  const getVideos = async (pageToken = "") => {
     try {
-      setLoading(true);
-      const data = await fetch(`${YT_TRENDING_VIDEO_API}&pageToken=${token}`);
+      setLoadingPage(true);
+      const data = await fetch(
+        `${YT_TRENDING_VIDEO_API}&maxResults=${API_PAGE_SIZE}&pageToken=${pageToken}`,
+      );
       const json = await data.json();
 
-      setVideos((prev) => [...prev, ...json.items]);
-      setNextToken(json.nextPageToken || null);
+      dispatch(appendVideos(json.items)); // add to redux cache
 
-      dispatch(cacheVideos(json.items));
+      setNextToken(json.nextPageToken || ""); // "" means no more pages
     } catch (error) {
       console.error("Error fetching videos:", error);
     } finally {
-      setLoading(false);
+      setLoadingPage(false);
     }
   };
 
-  const attachObserver = useCallback(
-    (node) => {
-      if (loading) return;
-      if (sentinelRef.current) sentinelRef.current.disconnect();
+  // const attachObserver = useCallback(
+  //   (node) => {
+  //     if (loading) return;
+  //     if (sentinelRef.current) sentinelRef.current.disconnect();
 
-      sentinelRef.current = new IntersectionObserver(
-        (entries) => {
-          if (entries[0].isIntersecting && nextToken) {
-            getVideos(nextToken);
-          }
-        },
-        { rootMargin: "400px" }, // pre-fetch a bit before bottom
-      );
+  //     sentinelRef.current = new IntersectionObserver(
+  //       (entries) => {
+  //         if (entries[0].isIntersecting && nextToken) {
+  //           getVideos(nextToken);
+  //         }
+  //       },
+  //       { rootMargin: "400px" }, // pre-fetch a bit before bottom
+  //     );
 
-      if (node) sentinelRef.current.observe(node);
-    },
-    [nextToken, loading],
-  );
+  //     if (node) sentinelRef.current.observe(node);
+  //   },
+  //   [nextToken, loading],
+  // );
+  console.log(videos.length);
+
+  useEffect(() => {
+    const node = sentinelRef.current;
+    if (!node) return;
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && nextToken && !loadingPage) {
+          getVideos(nextToken);
+        }
+      },
+      { rootMargin: "300px" },
+    );
+
+    io.observe(node);
+    return () => io.disconnect();
+  }, [nextToken, loadingPage]);
 
   return (
     <div className="grid h-11/12 grid-cols-3 gap-6 p-6">
@@ -63,8 +86,12 @@ const VideoContainer = () => {
         </Link>
       ))}
 
-      {nextToken && <div ref={attachObserver} className="h-1" />}
-      {loading && <h1 className="col-span-full">Loading...</h1>}
+      {nextToken && <div ref={sentinelRef} className="h-1" />}
+
+      {loadingPage &&
+        Array.from({ length: 9 }).map((_, i) => (
+          <VideoSkeleton key={`sk-${i}`} />
+        ))}
     </div>
   );
 };

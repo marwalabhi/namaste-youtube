@@ -1,5 +1,5 @@
 export const YT_TRENDING_VIDEO_API =
-  "https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&maxResults=15&regionCode=IN&key=" +
+  "https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&regionCode=IN&key=" +
   import.meta.env.VITE_API_KEY;
 
 export const YT_SEARCH_SUGGEST_API =
@@ -19,3 +19,5 @@ export const YT_SEARCH_API =
   "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&q=";
 
 export const LIVE_CHAT_COUNT = 225;
+
+export const API_PAGE_SIZE = 50;

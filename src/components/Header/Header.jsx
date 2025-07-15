@@ -16,6 +16,8 @@ import ButtonList from "../Body/MainContainer/ButtonList/ButtonList";
 const Header = () => {
   const navigate = useNavigate();
 
+  const isMenuOpen = useSelector((store) => store.app.isMenuOpen);
+
   const [searchQuery, setSearchQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -174,7 +176,7 @@ const Header = () => {
             </button>
           </div>
         </div>
-        <div className="z-10 ml-[13vw]">
+        <div className={`z-10 ${isMenuOpen ? "ml-[13vw]" : ""}`}>
           <ButtonList />
         </div>
       </div>
