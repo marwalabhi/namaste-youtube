@@ -93,7 +93,7 @@ const WatchPage = () => {
               </button>
             </div>
             <div className="flex items-center gap-4 text-[14px] font-medium">
-              {/* Add Like, Share, etc. buttons here */}
+              {/* Add Like, Share buttons */}
               <button className="flex cursor-pointer items-center gap-2 rounded-full bg-gray-100 px-3.5 py-2">
                 <SolarLikeLinear fontSize={21} />
                 {formatCount(statistics?.likeCount)}
@@ -109,7 +109,7 @@ const WatchPage = () => {
           </div>
 
           {/* Description */}
-          <div className="mt-4 rounded-lg bg-gray-100 p-4 text-sm text-gray-800">
+          <div className="mt-4 rounded-lg bg-[#f2f2f2] p-4 text-sm text-gray-800">
             <div className="mb-1 font-medium">
               {Number(statistics?.viewCount).toLocaleString() + " views"} •{" "}
               {formatTimeAgo(snippet.publishedAt)}

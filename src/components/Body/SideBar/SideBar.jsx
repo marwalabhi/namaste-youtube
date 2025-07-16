@@ -1,33 +1,51 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router";
+import { NavLink } from "react-router";
+import {
+  IcSharpHome,
+  MaterialSymbolsLightSubscriptionsOutlineSharp,
+  SimpleIconsYoutubeshorts,
+} from "../../../assets/icons/SolarIcons";
 
 const SideBar = () => {
   const isMenuOpen = useSelector((store) => store.app.isMenuOpen);
 
   // early return pattern
   if (!isMenuOpen) return null;
+  const itemClasses =
+    "flex w-full items-center rounded-xl px-3 py-2 transition hover:bg-[#e0e0e0]";
 
   return (
     <aside className="font-roboto flex h-screen w-64 flex-col overflow-y-auto bg-white px-2 py-4 text-[15px] text-black">
       <ul className="space-y-1">
         <li>
-          <Link to="/">
-            <button className="flex w-full items-center rounded-xl bg-gray-100 px-3 py-2 transition hover:bg-gray-200">
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              `${itemClasses} ${isActive ? "bg-[#f2f2f2]" : ""}`
+            }
+          >
+            <div className="flex items-center gap-3">
+              <IcSharpHome className="h-6 w-6" />
               <span>Home</span>
-            </button>
-          </Link>
+            </div>
+          </NavLink>
         </li>
 
         <li>
           <button className="flex w-full items-center rounded-xl px-3 py-2 transition hover:bg-gray-100">
-            {/* <MdPlayArrow className="mr-4 text-xl" /> */}
-            <span>Shorts</span>
+            <div className="flex items-center gap-3">
+              <SimpleIconsYoutubeshorts className="h-5 w-5" />
+              <span>Shorts</span>
+            </div>
           </button>
         </li>
         <li>
           <button className="flex w-full items-center rounded-xl px-3 py-2 transition hover:bg-gray-100">
-            <span>Subscriptions</span>
+            <div className="flex items-center gap-3">
+              <MaterialSymbolsLightSubscriptionsOutlineSharp className="h-6 w-6" />
+              <span>Subscriptions</span>
+            </div>
           </button>
         </li>
       </ul>
@@ -63,9 +81,11 @@ const SideBar = () => {
       </div>
       <ul className="space-y-1">
         <li>
-          <button className="flex w-full items-center rounded-xl px-3 py-2 transition hover:bg-gray-100">
-            <span>Trending</span>
-          </button>
+          <NavLink to="/">
+            <button className="flex w-full items-center rounded-xl px-3 py-2 transition hover:bg-gray-100">
+              <span>Trending</span>
+            </button>
+          </NavLink>
         </li>
         <li>
           <button className="flex w-full items-center rounded-xl px-3 py-2 transition hover:bg-gray-100">
