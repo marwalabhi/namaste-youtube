@@ -15,7 +15,7 @@ const list = [
   "Asana",
   "Computer programming",
   "Study Skills",
-  "Feature Phones",
+  "New to you",
   "Yoga",
 ];
 
@@ -23,7 +23,7 @@ const ButtonList = () => {
   const [active, setActive] = useState("All");
 
   return (
-    <div className="font-roboto flex flex-wrap gap-3 px-8 py-3 max-xl:my-1 max-xl:gap-0">
+    <div className="font-roboto flex flex-wrap gap-3 px-8 py-3 max-xl:my-1">
       {list.map((item) => (
         <Button
           key={item}
