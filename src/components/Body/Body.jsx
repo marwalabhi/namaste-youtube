@@ -14,7 +14,7 @@ const Body = () => {
           <SideBar />
         </div>
         {/* Scrollable Main Content */}
-        <main className="top-2.5 flex-1 overflow-y-auto">
+        <main className="flex-1 overflow-y-auto">
           <Outlet />
         </main>
       </div>

@@ -37,6 +37,7 @@ const Header = () => {
     // make an api call after every key press but if the diff b/w
     // 2 api calls is < 200ms
     // decline the API call
+    if (!searchQuery) return;
 
     const timer = setTimeout(() => {
       if (searchCache[searchQuery]) {
@@ -178,7 +179,7 @@ const Header = () => {
           </div>
         </div>
         <div
-          className={`z-10 ${isMenuOpen ? "lg:ml-[13vw] xl:ml-[19vw]" : ""}`}
+          className={`z-10 ${isMenuOpen ? "desktop:ml-[19vw] lg:ml-[13vw]" : ""}`}
         >
           {!isWatchPage && <ButtonList />}
         </div>

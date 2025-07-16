@@ -7,7 +7,7 @@ const MainContainer = () => {
 
   return (
     <div className="">
-      <div className={`${isMenuOpen ? "mt-[190px]" : "mt-32 xl:mt-44"}`}>
+      <div className={`${isMenuOpen ? "mt-[190px]" : "desktop:mt-44 mt-32"}`}>
         <VideoContainer />
       </div>
     </div>
