@@ -39,7 +39,7 @@ const LiveChat = () => {
 
   return (
     <div className="ml-2 w-[35vw]">
-      <div className="mb-1 flex h-[625px] flex-col-reverse overflow-x-hidden overflow-y-scroll rounded-lg border border-black bg-slate-100 p-2">
+      <div className="flex h-[625px] flex-col-reverse overflow-x-hidden overflow-y-scroll bg-linear-to-r/decreasing from-indigo-200 to-teal-200">
         {chatMessages &&
           chatMessages.length > 0 &&
           chatMessages.map((c, i) => (

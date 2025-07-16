@@ -36,7 +36,9 @@ const SearchResults = () => {
   console.log("videos_data", videos);
 
   return (
-    <div className={`flex flex-col gap-6${isMenuOpen ? "" : ""}`}>
+    <div
+      className={`flex flex-col gap-6 ${isMenuOpen ? "desktop: mt-[13rem]" : "desktop: mt-[10rem]"}`}
+    >
       {videos.map((video) => (
         <VideoSearchCard video={video} />
       ))}

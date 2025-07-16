@@ -36,7 +36,9 @@ const CommentsContainer = (props) => {
 
   return (
     <div className="font-roboto m-5 p-2">
-      <h1 className="text-2xl font-bold">Comments: {commentCount} </h1>
+      <h1 className="text-[21px] font-bold">
+        {Number(commentCount).toLocaleString() + " "}Comments
+      </h1>
       <CommentsList comments={commentsData} />
     </div>
   );

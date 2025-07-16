@@ -14,7 +14,7 @@ const VideoSearchCard = ({ video }) => {
         to={`/watch?v=${id.videoId || id.playlistId || id.channelId}`}
         className="flex w-full gap-4 rounded-xl bg-white p-2 transition hover:bg-gray-50"
       >
-        <div className="w-lg">
+        <div className="aspect-video">
           <img
             src={thumbnails?.high?.url || thumbnails?.default?.url}
             alt={snippet?.title}
