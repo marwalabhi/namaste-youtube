@@ -151,7 +151,7 @@ const Header = () => {
               )}
               <button
                 type="submit"
-                className="rounded-r-full border border-l-0 border-gray-300 bg-gray-100 px-5 py-2 hover:bg-gray-200"
+                className="cursor-pointer rounded-r-full border border-l-0 border-gray-300 bg-gray-100/50 px-5 py-2 hover:bg-gray-200"
               >
                 <SolarMagniferLinear />
               </button>
@@ -179,7 +179,7 @@ const Header = () => {
           </div>
         </div>
         <div
-          className={`z-10 ${isMenuOpen ? "desktop:ml-[19vw] max-2xl:ml-[18vw]" : ""}`}
+          className={`z-10 ${isMenuOpen ? "max3xl:ml-[19vw] 2xl:ml-[13vw]" : ""}`}
         >
           {!isWatchPage && <ButtonList />}
         </div>

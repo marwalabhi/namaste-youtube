@@ -9,8 +9,9 @@ import {
 } from "../../assets/icons/SolarIcons";
 import { closeMenu } from "../../utils/slices/appSlice";
 import CommentsContainer from "./CommentsContainer/CommentsContainer";
-import { VIDEO_CONTENT_DETAIL, YT_CHANNEL_DETAIL } from "../../utils/constants";
+import { VIDEO_CONTENT_DETAIL } from "../../utils/constants";
 import LiveChat from "../LiveChat/LiveChat";
+import { useGetChannelDetailsQuery } from "../../services/youtubeChannelApi";
 
 const WatchPage = () => {
   const [searchParams] = useSearchParams();
@@ -19,40 +20,30 @@ const WatchPage = () => {
   const dispatch = useDispatch();
 
   const [video, setVideo] = useState(null);
-  const [channelAvatar, setChannelAvatar] = useState(null);
 
   useEffect(() => {
     dispatch(closeMenu());
+
+    const fetchVideoDetails = async () => {
+      const apiKey = import.meta.env.VITE_API_KEY;
+      const url = VIDEO_CONTENT_DETAIL + videoId + "&key=" + apiKey;
+      const res = await fetch(url);
+      const data = await res.json();
+      setVideo(data.items?.[0]);
+    };
+
     fetchVideoDetails();
   }, []);
 
-  const fetchVideoDetails = async () => {
-    const apiKey = import.meta.env.VITE_API_KEY;
-    const url = VIDEO_CONTENT_DETAIL + videoId + "&key=" + apiKey;
-    const res = await fetch(url);
-    const data = await res.json();
-
-    setVideo(data.items?.[0]);
-  };
-
   const channelId = video?.snippet?.channelId;
+  const { data: channelData, isLoading } = useGetChannelDetailsQuery(
+    channelId,
+    { skip: !channelId },
+  );
 
-  useEffect(() => {
-    if (!channelId) return; // only fetch if channelId is available
-    fetchChannelDetails();
-  }, [channelId]);
+  const avatarUrl = channelData?.items[0]?.snippet?.thumbnails?.default?.url;
 
-  const fetchChannelDetails = async () => {
-    const apiKey = import.meta.env.VITE_API_KEY;
-    const res = await fetch(YT_CHANNEL_DETAIL + channelId + "&key=" + apiKey);
-    const data = await res.json();
-    // console.log("fetchChannelDetails", data);
-
-    const avatar = data?.items?.[0]?.snippet?.thumbnails?.default?.url;
-    setChannelAvatar(avatar);
-  };
-
-  if (!video) return <div className="p-8">Loading...</div>;
+  if (!video || isLoading) return <div className="p-8">Loading...</div>;
 
   const { snippet, statistics } = video;
 
@@ -78,7 +69,7 @@ const WatchPage = () => {
             <div className="flex items-center gap-3">
               {/* Channel Avatar */}
               <img
-                src={channelAvatar}
+                src={avatarUrl}
                 alt={snippet.channelTitle}
                 className="h-10 w-10 rounded-full"
               />

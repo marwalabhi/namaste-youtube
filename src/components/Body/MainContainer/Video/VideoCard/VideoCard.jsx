@@ -1,45 +1,31 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   formatCount,
   formatDuration,
   formatTimeAgo,
 } from "../../../../../utils/commonHelpers";
-import { YT_CHANNEL_DETAIL } from "../../../../../utils/constants";
 
-const DEFAULT_AVATAR =
-  "https://www.gstatic.com/youtube/img/channel/default_profile_48.png";
+import { useGetChannelDetailsQuery } from "../../../../../services/youtubeChannelApi";
+
+import { SolarUserCircleBoldDuotone } from "../../../../../assets/icons/SolarIcons";
+
+const DEFAULT_AVATAR = <SolarUserCircleBoldDuotone />;
 
 const VideoCard = ({ info }) => {
-  const [channelAvatar, setChannelAvatar] = useState(DEFAULT_AVATAR);
-
   if (!info) return null;
 
   const { snippet, statistics, contentDetails } = info;
   const { channelTitle, title, thumbnails, publishedAt, channelId } = snippet;
 
-  useEffect(() => {
-    const fetchChannelAvatar = async () => {
-      try {
-        const res = await fetch(
-          YT_CHANNEL_DETAIL +
-            channelId +
-            "&key=" +
-            import.meta.env.VITE_API_KEY,
-        );
-        const data = await res.json();
-        // console.log(data, "channel");
+  const { data: channelData, isLoading } = useGetChannelDetailsQuery(
+    channelId,
+    {
+      skip: !channelId,
+    },
+  );
 
-        const avatar =
-          data?.items?.[0]?.snippet?.thumbnails?.default?.url || DEFAULT_AVATAR;
-        setChannelAvatar(avatar);
-      } catch {
-        setChannelAvatar(DEFAULT_AVATAR);
-      }
-    };
-    fetchChannelAvatar();
-  }, [channelId]);
-
-  //border border-[#aaaaaa]/20
+  const avatarUrl =
+    channelData?.items[0]?.snippet?.thumbnails?.default?.url || DEFAULT_AVATAR;
 
   return (
     <div className="font-roboto cursor-pointer rounded-xl bg-white transition-shadow hover:shadow-2xl">
@@ -55,7 +41,7 @@ const VideoCard = ({ info }) => {
       </div>
       <div className="flex px-3 py-3">
         <img
-          src={channelAvatar}
+          src={avatarUrl}
           alt={channelTitle}
           className="mr-3 flex h-9 w-9 shrink-0 rounded-full bg-gray-200 object-cover"
         />

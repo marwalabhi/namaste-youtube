@@ -65,7 +65,7 @@ const VideoContainer = () => {
     const node = sentinelRef.current;
     if (!node) return;
 
-    const io = new IntersectionObserver(
+    const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting && nextToken && !loadingPage) {
           getVideos(nextToken);
@@ -74,8 +74,10 @@ const VideoContainer = () => {
       { rootMargin: "300px" },
     );
 
-    io.observe(node);
-    return () => io.disconnect();
+    observer.observe(node);
+    console.log(observer, node);
+
+    return () => observer.disconnect();
   }, [nextToken, loadingPage]);
 
   return (
