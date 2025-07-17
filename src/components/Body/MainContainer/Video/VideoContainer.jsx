@@ -6,7 +6,7 @@ import {
 import VideoCard from "./VideoCard/VideoCard";
 import { Link } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { appendVideos } from "../../../../utils/slices/scrollSlice";
+import { appendVideos, storeToken } from "../../../../utils/slices/scrollSlice";
 import VideoSkeleton from "../../../ShimmerUI/VideoSkeleton";
 
 const VideoContainer = () => {
@@ -14,6 +14,7 @@ const VideoContainer = () => {
   const [nextToken, setNextToken] = useState(null);
 
   const videos = useSelector((store) => store.iscroll.videos);
+  const getNextToken = useSelector((store) => store.iscroll.token);
 
   const sentinelRef = useRef(null);
 
@@ -21,7 +22,7 @@ const VideoContainer = () => {
 
   useEffect(() => {
     if (videos.length === 0) getVideos(); // don't refresh on back-nav
-  }, [videos.length]);
+  }, [videos.length, nextToken]);
 
   const getVideos = async (pageToken = "") => {
     try {
@@ -32,7 +33,7 @@ const VideoContainer = () => {
       const json = await data.json();
 
       dispatch(appendVideos(json.items)); // add to redux cache
-
+      dispatch(storeToken(json.nextPageToken));
       setNextToken(json.nextPageToken || ""); // "" means no more pages
     } catch (error) {
       console.error("Error fetching videos:", error);
@@ -59,7 +60,7 @@ const VideoContainer = () => {
   //   },
   //   [nextToken, loading],
   // );
-  console.log(videos.length);
+  console.log(videos.length, nextToken, "token", videos);
 
   useEffect(() => {
     const node = sentinelRef.current;

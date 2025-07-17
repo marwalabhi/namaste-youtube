@@ -179,7 +179,7 @@ const Header = () => {
           </div>
         </div>
         <div
-          className={`z-10 ${isMenuOpen ? "max3xl:ml-[19vw] 2xl:ml-[13vw]" : ""}`}
+          className={`z-10 ${isMenuOpen ? "max3xl:ml-[19vw] max-2xl:ml-[18vw] 2xl:ml-[13vw]" : ""}`}
         >
           {!isWatchPage && <ButtonList />}
         </div>

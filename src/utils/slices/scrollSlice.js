@@ -5,6 +5,7 @@ const scrollSlice = createSlice({
   name: "iscroll",
   initialState: {
     videos: [],
+    token: null,
   },
   reducers: {
     appendVideos: (state, action) => {
@@ -14,11 +15,14 @@ const scrollSlice = createSlice({
 
       state.videos.push(...action.payload);
     },
+    storeToken: (state, action) => {
+      state.token = action.payload;
+    },
     resetVideos: (state, action) => {
       state.videos = [];
     },
   },
 });
 
-export const { appendVideos, resetVideos } = scrollSlice.actions;
+export const { appendVideos, resetVideos, storeToken } = scrollSlice.actions;
 export default scrollSlice.reducer;

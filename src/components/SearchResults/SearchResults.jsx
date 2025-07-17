@@ -37,7 +37,7 @@ const SearchResults = () => {
 
   return (
     <div
-      className={`flex flex-col gap-6 ${isMenuOpen ? "desktop: mt-[13rem]" : "desktop: mt-[10rem]"}`}
+      className={`flex flex-col gap-6 ${isMenuOpen ? "desktop: mt-[13rem]" : "desktop: mt-[10rem] max-2xl:mt-[12rem]"}`}
     >
       {videos.map((video) => (
         <VideoSearchCard video={video} />
