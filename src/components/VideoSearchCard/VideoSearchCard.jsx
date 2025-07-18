@@ -3,8 +3,6 @@ import { Link } from "react-router";
 import { useSelector } from "react-redux";
 
 const VideoSearchCard = ({ video }) => {
-  console.log("datahere", video);
-
   const { snippet, id } = video;
   const { channelId, channelTitle, title, publishedAt, thumbnails } = snippet;
 

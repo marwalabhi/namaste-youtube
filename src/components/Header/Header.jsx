@@ -28,11 +28,8 @@ const Header = () => {
   const searchCache = useSelector((store) => store.search);
   const dispatch = useDispatch();
 
-  // console.log("Searching for", searchFor);
-
   useEffect(() => {
     //API call
-    // console.log("You typed: ", searchQuery);
 
     // make an api call after every key press but if the diff b/w
     // 2 api calls is < 200ms
@@ -81,8 +78,6 @@ const Header = () => {
   };
 
   const handleSuggestionClick = (suggestion) => {
-    console.log("suggestion2", suggestion);
-
     navigate(`/results?search_query=${encodeURIComponent(suggestion)}`);
     setShowSuggestions(false);
     setSearchQuery(suggestion);
@@ -107,7 +102,7 @@ const Header = () => {
   const toggelMenuHandler = () => {
     dispatch(toggleMenu());
   };
-  // console.log("api call with - ", suggestions);
+
   return (
     <header className="font-roboto fixed inset-x-0 top-0 z-30 bg-white/85 px-4 py-2 backdrop-blur-xl backdrop-saturate-150">
       <div className="flex flex-col">

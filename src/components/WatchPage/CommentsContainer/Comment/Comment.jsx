@@ -4,8 +4,6 @@ import { formatTimeAgo } from "../../../../utils/commonHelpers";
 const Comment = ({ data }) => {
   const { snippet } = data;
 
-  console.log("comments real data received", data);
-
   const { topLevelComment } = snippet;
 
   const nestedComments = data?.replies?.comments ?? [];

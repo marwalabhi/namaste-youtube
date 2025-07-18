@@ -11,18 +11,17 @@ import VideoSkeleton from "../../../ShimmerUI/VideoSkeleton";
 
 const VideoContainer = () => {
   const [loadingPage, setLoadingPage] = useState(false);
-  const [nextToken, setNextToken] = useState(null);
 
   const videos = useSelector((store) => store.iscroll.videos);
-  const getNextToken = useSelector((store) => store.iscroll.token);
+  const nextToken = useSelector((store) => store.iscroll.token);
 
-  const sentinelRef = useRef(null);
+  const observerRef = useRef(null);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (videos.length === 0) getVideos(); // don't refresh on back-nav
-  }, [videos.length, nextToken]);
+    if (videos.length === 0 && !loadingPage) getVideos(); // don't refresh on back-nav
+  }, [videos.length]);
 
   const getVideos = async (pageToken = "") => {
     try {
@@ -33,8 +32,7 @@ const VideoContainer = () => {
       const json = await data.json();
 
       dispatch(appendVideos(json.items)); // add to redux cache
-      dispatch(storeToken(json.nextPageToken));
-      setNextToken(json.nextPageToken || ""); // "" means no more pages
+      dispatch(storeToken(json.nextPageToken || ""));
     } catch (error) {
       console.error("Error fetching videos:", error);
     } finally {
@@ -42,44 +40,32 @@ const VideoContainer = () => {
     }
   };
 
-  // const attachObserver = useCallback(
-  //   (node) => {
-  //     if (loading) return;
-  //     if (sentinelRef.current) sentinelRef.current.disconnect();
+  const setObserver = useCallback(
+    (node) => {
+      if (observerRef.current) observerRef.current.disconnect();
+      if (!node) return;
 
-  //     sentinelRef.current = new IntersectionObserver(
-  //       (entries) => {
-  //         if (entries[0].isIntersecting && nextToken) {
-  //           getVideos(nextToken);
-  //         }
-  //       },
-  //       { rootMargin: "400px" }, // pre-fetch a bit before bottom
-  //     );
+      observerRef.current = new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting && nextToken && !loadingPage) {
+            getVideos(nextToken);
+          }
+        },
+        { rootMargin: "300px" },
+      );
 
-  //     if (node) sentinelRef.current.observe(node);
-  //   },
-  //   [nextToken, loading],
-  // );
-  console.log(videos.length, nextToken, "token", videos);
+      observerRef.current.observe(node);
 
-  useEffect(() => {
-    const node = sentinelRef.current;
-    if (!node) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && nextToken && !loadingPage) {
+      // manually trigger fetch if already intersecting on load
+      requestIdleCallback(() => {
+        const rect = node.getBoundingClientRect();
+        if (rect.top < window.innerHeight && nextToken && !loadingPage) {
           getVideos(nextToken);
         }
-      },
-      { rootMargin: "300px" },
-    );
-
-    observer.observe(node);
-    console.log(observer, node);
-
-    return () => observer.disconnect();
-  }, [nextToken, loadingPage]);
+      });
+    },
+    [nextToken, loadingPage],
+  );
 
   return (
     <div className="grid h-11/12 grid-cols-3 gap-6 p-6">
@@ -89,7 +75,7 @@ const VideoContainer = () => {
         </Link>
       ))}
 
-      {nextToken && <div ref={sentinelRef} className="h-1" />}
+      {nextToken && <div ref={setObserver} className="h-1" />}
 
       {loadingPage &&
         Array.from({ length: 9 }).map((_, i) => (

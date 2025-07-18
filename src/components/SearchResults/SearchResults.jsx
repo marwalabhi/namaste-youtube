@@ -8,7 +8,6 @@ import axios from "axios";
 const SearchResults = () => {
   const [searchParams] = useSearchParams();
   const query = searchParams.get("search_query");
-  console.log("query", query);
 
   const isMenuOpen = useSelector((store) => store.app.isMenuOpen);
 
@@ -32,8 +31,6 @@ const SearchResults = () => {
 
     fetchVideos();
   }, [query]);
-
-  console.log("videos_data", videos);
 
   return (
     <div
